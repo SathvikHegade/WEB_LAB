@@ -1,86 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>BMSIT&M Timetable</title>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+            background-color: lightgray;
+        }
+
+        .calculator {
+            background-color: white;
+            width: 230px;
+            margin: auto;
+            padding: 15px;
+            border: 1px solid black;
+        }
+
+        input {
+            width: 200px;
+            height: 30px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            width: 45px;
+            height: 40px;
+            margin: 2px;
+            font-size: 16px;
+            background-color: lightblue;
+            border: 1px solid gray;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: skyblue;
+        }
+    </style>
 </head>
 
 <body>
 
-<table border=2>
-  <tr>
-    <th>DAY</th>
-    <th>I<br>8.30-9.25</th>
-    <th>II<br>9.25-10.20</th>
-    <th>10.20-10.40</th>
-    <th>III<br>10.40-11.35</th>
-    <th>IV<br>11.35-12.30</th>
-    <th>12.30-1.25</th>
-    <th>V<br>1.25-2.20</th>
-    <th>VI<br>2.20-3.15</th>
-    <th>VII<br>3.15-4.10</th>
-  </tr>
+    <div class="calculator">
+        <h3>Calculator</h3>
 
-  <tr>
-    <td class="day">MONDAY</td>
-    <td>SE</td>
-    <td>TOC</td>
-    <td rowspan="6" class="break">TEA<br>BREAK</td>
-    <td>CN</td>
-    <td>PE-1</td>
-    <td rowspan="6" class="break">LUNCH<br>BREAK</td>
-    <td colspan="2">MINI PROJECT</td>
-    <td></td>
-  </tr>
+        <input type="text" id="display" readonly>
 
-  <tr>
-    <td class="day">TUESDAY</td>
-    <td>PE-1</td>
-    <td>RMIPR</td>
-    <td>TOC</td>
-    <td>PLACEMENT</td>
-    <td colspan="2">WEB LAB</td>
-    <td></td>
-  </tr>
+        <br>
 
-  <tr>
-    <td class="day">WEDNESDAY</td>
-    <td>CN</td>
-    <td>TOC</td>
-    <td colspan="2">CN LAB</td>
-    <td colspan="2">YOGA (NCMC)</td>
-    <td></td>
-  </tr>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="del()">DEL</button>
+        <button onclick="append('/')">/</button>
+        <button onclick="append('*')">*</button><br>
 
-  <tr>
-    <td class="day">THURSDAY</td>
-    <td>RMIPR</td>
-    <td>CN</td>
-    <td>SE</td>
-    <td>EVS(PROJECTS)</td>
-    <td>PE-1</td>
-    <td></td>
-    <td></td>
-  </tr>
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('-')">-</button><br>
 
-  <tr>
-    <td class="day">FRIDAY</td>
-    <td>TOC</td>
-    <td>SE</td>
-    <td>PLACEMENT</td>
-    <td>EVS(PROJECTS)</td>
-    <td colspan="2">PROCTORING</td>
-    <td></td>
-  </tr>
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('+')">+</button><br>
 
-  <tr>
-    <td class="day">SATURDAY</td>
-    <td colspan="2">IIC Activities</td>
-    <td colspan="2">Departmental Activities</td>
-    <td colspan="3"></td>
-  </tr>
-</table>
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="calculate()">=</button><br>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+    </div>
+
+    <script>
+        let display = document.getElementById("display");
+
+        function append(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function del() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                if (!display.value ||
+                    !/^[0-9+\-*/.() ]+$/.test(display.value)) {
+                    throw new Error();
+                }
+
+                let result = Function(
+                    '"use strict"; return (' + display.value + ')'
+                )();
+
+                display.value =
+                    Number.isFinite(result) ? result : "Error";
+            } catch {
+                display.value = "Error";
+            }
+        }
+    </script>
 
 </body>
 </html>
