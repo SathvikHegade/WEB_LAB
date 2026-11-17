@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+            background-color: lightgray;
+        }
+
+        .calculator {
+            background-color: white;
+            width: 230px;
+            margin: auto;
+            padding: 15px;
+            border: 1px solid black;
+        }
+
+        input {
+            width: 200px;
+            height: 30px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            width: 45px;
+            height: 40px;
+            margin: 2px;
+            font-size: 16px;
+            background-color: lightblue;
+            border: 1px solid gray;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <h3>Calculator</h3>
+
+        <input type="text" id="display" readonly>
+
+        <br>
+
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="del()">DEL</button>
+        <button onclick="append('/')">/</button>
+        <button onclick="append('*')">*</button><br>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('-')">-</button><br>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('+')">+</button><br>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="calculate()">=</button><br>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+    </div>
+
+    <script>
+        let display = document.getElementById("display");
+
+        function append(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function del() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                if (!display.value ||
+                    !/^[0-9+\-*/.() ]+$/.test(display.value)) {
+                    throw new Error();
+                }
+
+                let result = Function(
+                    '"use strict"; return (' + display.value + ')'
+                )();
+
+                display.value =
+                    Number.isFinite(result) ? result : "Error";
+            } catch {
+                display.value = "Error";
+            }
+        }
+    </script>
+
+</body>
+</html>
