@@ -1,85 +1,71 @@
-
-<html>
-<head>
-<style>
-    body {
-        font-family: Arial;
-        text-align: center;
-        background-color: lightblue;
-    }
-
-    form {
-        margin: 20px;
-    }
-
-    input {
-        padding: 5px;
-        margin: 5px;
-    }
-
-    input[type="submit"] {
-        background-color: green;
-        color: white;
-        border: none;
-        padding: 8px 20px;
-        cursor: pointer;
-    }
-
-    h3 {
-        color: darkblue;
-    }
-</style>
-</head>
-
-<body>
-
-<h3>Transpose of a Matrix</h3>
-
-<form method="post">
-    Enter Matrix Elements (2x3):<br><br>
-
-    <?php
-    for($i=0; $i<2; $i++)
-    {
-        for($j=0; $j<3; $j++)
-        {
-            echo "<input type='number' name='a[$i][$j]' required>";
-        }
-        echo "<br><br>";
-    }
-    ?>
-
-    <input type="submit" name="submit" value="Transpose">
-</form>
-
 <?php
-if(isset($_POST['submit']))
+$a = array(array(1, 2, 3), array(4, 5, 6), array(7, 8, 9));
+$b = array(array(7, 8, 9), array(4, 5, 6), array(1, 2, 3));
+
+$m = count($a);
+$n = count($a[2]);
+$p = count($b);
+$q = count($b[2]);
+
+echo "\$m = ".$m." \$n = ".$n." \$p = ".$p." \$q = ".$q;
+
+echo "<br/>";
+
+echo "the  first matrix    :" . "<br/>";
+for ($row = 0; $row < $m; $row++)
 {
-    $a = $_POST['a'];
+    for ($col = 0; $col < $n; $col++)
+        echo " " . $a[$row][$col];
+    echo "<br/>";
+}
 
-    echo "<h3>Original Matrix:</h3>";
+echo "the  second matrix    :" . "<br/>";
 
-    for($i=0; $i<2; $i++)
+for ($row = 0; $row < $p; $row++)
+{
+    for ($col = 0; $col < $q; $col++)
+        echo "  " . $b[$row][$col];
+    echo "<br/>";
+}
+
+echo "the transpose for the first  matrix  is:" . "<br/>";
+for ($row = 0; $row < $m; $row++)
+{
+    for ($col = 0; $col < $n; $col++)
+        echo " " . $a[$col][$row];
+    echo "<br/>";
+}
+
+if (($m === $p) and ($n === $q))
+{
+    echo "the addition of matrices  is:" . "<br/>";
+    for ($row = 0; $row < 3; $row++)
     {
-        for($j=0; $j<3; $j++)
-        {
-            echo $a[$i][$j]." ";
-        }
-        echo "<br>";
-    }
-
-    echo "<h3>Transpose Matrix:</h3>";
-
-    for($i=0; $i<3; $i++)
-    {
-        for($j=0; $j<2; $j++)
-        {
-            echo $a[$j][$i]." ";
-        }
-        echo "<br>";
+        for ($col = 0; $col < 3; $col++)
+            echo "  " . $a[$row][$col] + $b[$row][$col] . " ";
+        echo "<br/>";
     }
 }
-?>
 
-</body>
-</html>
+if ($n === $p) 
+{
+    echo " The multiplication of matrices: <br/>";
+    $result = array();
+    for ($i = 0; $i < $m; $i++)
+    {
+        for ($j = 0; $j < $q; $j++)
+        {
+            $result[$i][$j] = 0;
+            for ($k = 0; $k < $n; $k++)
+                $result[$i][$j] += $a[$i][$k] * $b[$k][$j];
+        }
+    }
+    for ($row = 0; $row < $m; $row++)
+    {
+        for ($col = 0; $col < $q; $col++)
+            echo " " . $result[$row][$col];
+        echo "<br/>";
+    }
+}
+
+do this to same
